@@ -1,0 +1,25 @@
+# Credenciais
+.env
+*.key
+
+# Índice FAISS (grande — regenerar com build_index())
+data/vectorstore/
+
+# Dados brutos (podem conter dados sensíveis)
+data/raw/*.pdf
+data/raw/*.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Notebooks output
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
