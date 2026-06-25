@@ -33,28 +33,23 @@ Sistemas de ML aplicados a dados de poços offshore geram grande volume de docum
 
 ## 🏗️ Arquitetura
 
-```
-Documentos (PDF/TXT)
-        │
-        ▼
-   [Indexer]
-   Carrega → Chunking → Embeddings (sentence-transformers)
-        │
-        ▼
-   [FAISS Index]
-   Persistido em data/vectorstore/
-        │
-    ┌───┴───┐
-    ▼       ▼
-[Retriever] [RAG Chain]
-Busca      Retriever + LLM
-Semântica  → Resposta + Fontes
-    │           │
-    └─────┬─────┘
-          ▼
-    [Streamlit App]
-    3 abas: Busca │ Q&A RAG │ Docs
-```
+![Arquitetura PetroRAG](assets/architecture.png)
+
+---
+
+## 📊 Visualizações de Embeddings
+
+### Matriz de Similaridade Semântica (PT-BR ↔ EN)
+
+Demonstra que o modelo multilíngue reconhece termos equivalentes em português e inglês como semanticamente próximos — sem tradução explícita.
+
+![Matriz de Similaridade](assets/similarity_matrix.png)
+
+### Distribuição dos Embeddings por Tema (PCA 2D)
+
+Visualização da separação semântica entre clusters temáticos do domínio offshore: eventos DHSV, slug severo, análise SHAP, pipeline ETL e sensores.
+
+![Embeddings PCA](assets/tsne_embeddings.png)
 
 ---
 
@@ -183,6 +178,4 @@ for r in results:
 
 - [Dataset 3W — Petrobras](https://github.com/petrobras/3W)
 - [LangChain Docs](https://docs.langchain.com)
-- [FAISS — Facebook AI](https://faiss.ai)
-- [sentence-transformers](https://www.sbert.net)
-- [Ollama](https://ollama.com)
+- 
