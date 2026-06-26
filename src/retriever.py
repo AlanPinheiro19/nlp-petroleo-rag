@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import List
 
 from langchain_community.vectorstores import FAISS
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 from config import TOP_K
 

@@ -7,8 +7,9 @@ from __future__ import annotations
 import logging
 from typing import Iterator
 
+# langchain >= 0.3: chains and prompts moved to langchain and langchain_core
 from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_community.vectorstores import FAISS
 
 from config import (

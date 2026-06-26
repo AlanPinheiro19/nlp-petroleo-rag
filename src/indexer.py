@@ -9,14 +9,15 @@ import json
 from pathlib import Path
 from typing import List
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+# langchain >= 0.3: text splitters were extracted to langchain-text-splitters
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import (
     PyPDFLoader,
     TextLoader,
     DirectoryLoader,
 )
 from langchain_community.vectorstores import FAISS
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 from config import (
     RAW_DIR, VECTORSTORE_DIR,
@@ -90,8 +91,10 @@ def build_index(data_dir: Path = RAW_DIR, force: bool = False) -> FAISS:
     index_path = VECTORSTORE_DIR / FAISS_INDEX_NAME
     embeddings = get_embeddings()
 
-    # Verificar se já existe índice válido
-    if not force and index_path.exists():
+    # Verificar se já existe índice válido. LangChain save_local() grava
+    # sempre como "index.faiss" dentro do diretório, independente do nome do índice.
+    faiss_file = index_path / "index.faiss"
+    if not force and faiss_file.exists():
         logger.info(f"Carregando índice existente: {index_path}")
         return FAISS.load_local(
             str(index_path), embeddings,
@@ -100,7 +103,8 @@ def build_index(data_dir: Path = RAW_DIR, force: bool = False) -> FAISS:
 
     # Construir do zero
     logger.info("Construindo novo índice FAISS...")
-    VECTORSTORE_DIR.mkdir(parents=True, exist_ok=True)
+    # save_local() escreve dentro de index_path/ — o diretório precisa existir
+    index_path.mkdir(parents=True, exist_ok=True)
 
     docs   = load_documents(data_dir)
     chunks = split_documents(docs)
