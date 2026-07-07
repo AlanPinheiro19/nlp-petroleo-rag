@@ -9,8 +9,10 @@ import json
 from pathlib import Path
 from typing import List
 
-# langchain >= 0.3: text splitters were extracted to langchain-text-splitters
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+# Importar diretamente do submodulo evita acionar langchain_text_splitters/__init__.py,
+# que importa SentenceTransformersTokenTextSplitter -> sentence_transformers -> torch
+# e causa AttributeError (DynamicInt) em versoes incompativeis do torch no ambiente base.
+from langchain_text_splitters.character import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import (
     PyPDFLoader,
     TextLoader,

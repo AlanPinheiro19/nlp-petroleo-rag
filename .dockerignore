@@ -1,0 +1,29 @@
+# Dados e indices (montados como volume)
+data/raw/
+data/vectorstore/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Ambiente virtual local
+.env
+venv/
+.venv/
+
+# Jupyter
+notebooks/.ipynb_checkpoints/
+*.ipynb
+
+# Assets de desenvolvimento (nao necessarios no container)
+assets/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,18 @@
+services:
+  petrorag:
+    build: .
+    container_name: petrorag-app
+    ports:
+      - "8501:8501"
+    volumes:
+      # Persistir documentos e indice FAISS fora do container
+      - ./data:/app/data
+      # Arquivo de configuracao de ambiente (nunca versionado)
+      - ./.env:/app/.env:ro
+    environment:
+      # LLM via Ollama rodando no host Windows
+      - LLM_PROVIDER=ollama
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      # Variaveis sobrescritas pelo .env acima — listadas aqui para documentar
+      - EMBEDDING_MODEL=sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    restart: unless-stopped

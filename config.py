@@ -6,10 +6,16 @@ import os
 from pathlib import Path
 
 # Diretórios
-ROOT_DIR       = Path(__file__).parent
+ROOT_DIR       = Path(__file__).resolve().parent
 DATA_DIR       = ROOT_DIR / "data"
 RAW_DIR        = DATA_DIR / "raw"
-VECTORSTORE_DIR = DATA_DIR / "vectorstore"
+# FAISS's C library uses fopen (ANSI) on Windows and fails on non-ASCII paths.
+# Default to a path under the user home directory which is always ASCII-safe.
+# Override via VECTORSTORE_DIR env var if needed.
+VECTORSTORE_DIR = Path(os.getenv(
+    "VECTORSTORE_DIR",
+    str(Path.home() / ".petrorag" / "vectorstore"),
+))
 
 # Embedding model (HuggingFace — sem custo, roda local)
 EMBEDDING_MODEL = os.getenv(
@@ -36,4 +42,11 @@ TOP_K = int(os.getenv("TOP_K", "5"))
 TEMPERATURE = float(os.getenv("TEMPERATURE", "0.2"))
 
 # Streamlit
-APP_TITLE = "🛢️ PetroRAG — Busca Semântica & IA para Poços Offshore"
+APP_TITLE = "PetroRAG — Busca Semantica & IA para Pocos Offshore"
+
+# Repositorio fonte dos documentos (publico, sem autenticacao obrigatoria)
+# GITHUB_TOKEN (env var) eleva o rate limit de 60 para 5000 req/h
+GITHUB_REPO_OWNER = "petrobras"
+GITHUB_REPO_NAME  = "3W"
+GITHUB_DOCS_PATH  = "docs"
+GITHUB_REF        = os.getenv("GITHUB_REF", "main")

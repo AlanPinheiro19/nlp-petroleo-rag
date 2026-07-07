@@ -1,10 +1,27 @@
-# Core NLP & Embeddings
-sentence-transformers>=2.7.0
-langchain>=0.3.0
-langchain-core>=0.3.0
-langchain-community>=0.3.0
+# ============================================================
+# Versoes fixadas para garantir compatibilidade.
+#
+# Conflito conhecido: torch < 2.5 + transformers >= 4.43 causa
+# AttributeError em torch.fx.experimental.sym_node.DynamicInt.
+# Solucao: torch >= 2.5 (removeu a dependencia de DynamicInt)
+#          com transformers >= 4.46 (compativel com torch 2.5+).
+# ============================================================
+
+# PyTorch — versao minima que nao usa DynamicInt
+torch>=2.5.0
+
+# Transformers — compativel com torch 2.5+
+transformers>=4.46.0,<5.0.0
+
+# NLP & Embeddings
+sentence-transformers>=3.3.0,<4.0.0
+
+# LangChain ecosystem
+langchain>=0.3.0,<0.4.0
+langchain-core>=0.3.0,<0.4.0
+langchain-community>=0.3.0,<0.4.0
 langchain-huggingface>=0.1.0
-langchain-text-splitters>=0.3.0  # extraído de langchain a partir da versão 0.3
+langchain-text-splitters>=0.3.0,<0.4.0
 langchain-openai>=0.2.0          # opcional: LLM_PROVIDER=openai
 
 # Vector Store

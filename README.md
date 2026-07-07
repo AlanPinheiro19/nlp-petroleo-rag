@@ -83,25 +83,46 @@ LLM_PROVIDER=openai
 OPENAI_API_KEY=sk-...
 ```
 
-### 3. Adicionar documentos e indexar
+### 3. Baixar documentos do repositório 3W
+
+O projeto usa os documentos técnicos publicados diretamente no repositório oficial [petrobras/3W](https://github.com/petrobras/3W/tree/main/docs) — 22 PDFs (teses de doutorado, dissertações de mestrado, projetos de graduação) totalizando ~130 MB.
 
 ```bash
-# Coloque PDFs ou TXTs em data/raw/
-cp meu_relatorio.pdf data/raw/
+# Download incremental (pula arquivos já existentes em data/raw/)
+make fetch-docs
+# ou: python scripts/fetch_docs.py
 
-# Construir o índice FAISS
+# Listar os documentos disponíveis sem baixar
+make fetch-docs-dry
+
+# Re-baixar todos (útil após atualizações no repositório fonte)
+make fetch-docs-force
+```
+
+> **Token opcional:** sem autenticação o rate limit da API é 60 req/h — suficiente para o download.
+> Para aumentar para 5000 req/h, defina `GITHUB_TOKEN` no `.env`.
+
+```bash
+# .env (opcional)
+GITHUB_TOKEN=ghp_seu_token_aqui
+```
+
+### 4. Indexar documentos
+
+```bash
+# Construir o índice FAISS a partir dos documentos em data/raw/
 make index
 # ou: python scripts/build_index.py
 ```
 
-### 4. Rodar o app
+### 5. Rodar o app
 
 ```bash
 make app
 # ou: streamlit run app.py
 ```
 
-### 5. Busca via CLI (sem Streamlit)
+### 6. Busca via CLI (sem Streamlit)
 
 ```bash
 make search
@@ -178,4 +199,6 @@ for r in results:
 
 - [Dataset 3W — Petrobras](https://github.com/petrobras/3W)
 - [LangChain Docs](https://docs.langchain.com)
-- 
+- [FAISS — Facebook AI](https://faiss.ai)
+- [sentence-transformers](https://www.sbert.net)
+- [Ollama](https://ollama.com)
